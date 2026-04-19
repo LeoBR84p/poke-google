@@ -1,0 +1,34 @@
+# Vercel-only exclusions (separate from .gitignore).
+#
+# The serverless function reads every Pokédex document from the
+# precompiled Brotli siblings, so the raw JSON files are 356 MB of dead
+# weight — excluding them keeps the function under the 250 MB unzipped
+# cap.
+
+# Source PNG for the Oak sprite grid — only used offline by tools/slice_oak.py.
+tools/
+
+# Raw JSON (keep the .json.br siblings).
+data/**/*.json
+!data/**/*.json.br
+
+# Source CSV dump — only used by the offline builder.
+data/raw_csv/
+
+# Dev / editor / Python cruft.
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.DS_Store
+*.log
+requirements-dev.txt
+
+# Git / tooling.
+.git/
+.github/
+.vscode/
+.idea/

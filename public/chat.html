@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Professor Oak · PÓkE-GooGle</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/jpeg" href="/icon.jpeg">
+    <link rel="apple-touch-icon" href="/icon.jpeg">
+    <meta name="apple-mobile-web-app-title" content="PÓkE-GooGle">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#c9382b">
+    <link rel="preload" as="image" href="/cells/oak_0.png">
+    <link rel="preload" as="image" href="/cells/oak_1.png">
+    <link rel="preload" as="image" href="/cells/oak_2.png">
+    <link rel="preload" as="image" href="/cells/oak_3.png">
+    <link rel="preload" as="image" href="/cells/oak_4.png">
+    <link rel="preload" as="image" href="/cells/oak_5.png">
+    <link rel="preload" as="image" href="/cells/oak_6.png">
+    <link rel="preload" as="image" href="/cells/oak_7.png">
+    <link rel="preload" as="image" href="/cells/oak_8.png">
+    <link rel="preload" as="image" href="/cells/oak_9.png">
+    <link rel="preload" as="image" href="/cells/oak_10.png">
+    <link rel="preload" as="image" href="/cells/oak_11.png">
+    <style>
+        /*
+         * Professor sprite viewer — 12 pre-sliced cell PNGs in
+         * /cells/oak_{0..11}.png.  No canvas, no CSS crop math; we
+         * just swap <img src="…"> between cells.  Each cell is ~150 KB,
+         * preloaded in parallel above, so the swap is instant.
+         */
+        .oak-frame {
+            position: relative !important;
+            width: 100% !important;
+            max-width: min(92vw, 520px) !important;
+            margin: 0 auto !important;
+            background-color: #0b1006;
+            border: 2px solid #000;
+            border-radius: 6px;
+            box-shadow: inset 0 0 12px rgba(0,0,0,.55);
+            overflow: hidden !important;
+        }
+        .oak-sprite {
+            display: block !important;
+            width: 100% !important;
+            height: auto !important;
+            max-width: 100% !important;
+            image-rendering: auto;
+        }
+        .oak-fallback {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            color: #f6f6d2;
+            background: #2a0a08;
+            text-align: left;
+            padding: 10px 12px;
+            overflow: auto;
+        }
+        /* Without this override our .oak-fallback { display: flex } beats
+           the UA stylesheet's [hidden] { display: none }, so the fallback
+           stays visible forever and covers a perfectly good sprite. */
+        .oak-fallback[hidden] { display: none !important; }
+        #oak-fallback-text {
+            margin: 0;
+            font-family: ui-monospace, Menlo, monospace;
+            font-size: 11px;
+            line-height: 1.45;
+            white-space: pre-wrap;
+            word-break: break-all;
+            color: #f6f6d2;
+        }
+        /* iOS Safari auto-zooms any form control under 16px.  Inlined with
+         * !important so the rule survives CSS caches / specificity. */
+        .chat-input textarea {
+            font-size: 16px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="pokedex">
+        <header class="pokedex-top">
+            <div class="lens">
+                <div class="lens-inner"></div>
+            </div>
+            <div class="indicator-row">
+                <span class="led red"></span>
+                <span class="led yellow"></span>
+                <span class="led green"></span>
+            </div>
+            <h1 data-i18n="chat_title">Call Professor Oak</h1>
+            <div class="picker-group">
+                <a href="/" class="nav-link" data-i18n="nav_pokedex">Pokédex</a>
+                <div class="lang-picker">
+                    <label for="lang-select" data-i18n="language_label">Language</label>
+                    <select id="lang-select" aria-label="Select language"></select>
+                </div>
+            </div>
+        </header>
+
+        <main class="pokedex-body chat-body">
+            <section class="screen portrait-screen">
+                <div class="screen-frame portrait-frame">
+                    <div class="oak-frame">
+                        <img id="oak-sprite" class="oak-sprite" src="/cells/oak_0.png" alt="Professor Oak">
+                        <div id="oak-fallback" class="oak-fallback" hidden>
+                            <pre id="oak-fallback-text" class="oak-fallback-text">Sprite failed to load</pre>
+                        </div>
+                    </div>
+                    <div class="portrait-caption">
+                        <h2 class="professor-name" data-i18n="professor_name">Professor Oak</h2>
+                        <p class="professor-bio" data-i18n="professor_bio">Pokémon researcher from Pallet Town.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="screen chat-screen">
+                <div class="screen-frame chat-frame">
+                    <div id="chat-log" class="chat-log" aria-live="polite"></div>
+                    <form id="chat-form" class="chat-input" autocomplete="off">
+                        <textarea
+                            id="chat-input"
+                            rows="2"
+                            maxlength="2000"
+                            placeholder="Ask Professor…"
+                            data-i18n-placeholder="chat_placeholder"
+                            required></textarea>
+                        <div class="chat-actions">
+                            <button type="button" id="chat-clear" data-i18n="chat_clear">Clear</button>
+                            <button type="submit" id="chat-send" data-i18n="chat_send">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer class="pokedex-footer">
+            <span class="footer-text">Data from <a href="https://pokeapi.co" target="_blank" rel="noopener">PokéAPI</a> · Chat powered by <a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter</a> · Sprites © Game Freak / Nintendo / The Pokémon Company</span>
+        </footer>
+    </div>
+
+    <script src="/chat.js?v=8" defer></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

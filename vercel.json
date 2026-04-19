@@ -1,0 +1,41 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "cleanUrls": true,
+    "functions": {
+        "api/index.py": {
+            "runtime": "@vercel/python@4.3.1",
+            "includeFiles": "data/**/*.json.br",
+            "maxDuration": 10
+        }
+    },
+    "rewrites": [
+        { "source": "/api/:path*", "destination": "/api/index" },
+        { "source": "/chat", "destination": "/chat.html" }
+    ],
+    "headers": [
+        {
+            "source": "/(chat|index)\\.html",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=60, stale-while-revalidate=86400" }
+            ]
+        },
+        {
+            "source": "/(app|chat)\\.js",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=60, stale-while-revalidate=86400" }
+            ]
+        },
+        {
+            "source": "/styles\\.css",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=300, s-maxage=3600, stale-while-revalidate=604800" }
+            ]
+        },
+        {
+            "source": "/",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=60, stale-while-revalidate=86400" }
+            ]
+        }
+    ]
+}

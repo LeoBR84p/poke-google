@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PÓkE-GooGle</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/jpeg" href="/icon.jpeg">
+    <link rel="apple-touch-icon" href="/icon.jpeg">
+    <meta name="apple-mobile-web-app-title" content="PÓkE-GooGle">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#c9382b">
+    <link rel="preconnect" href="https://raw.githubusercontent.com">
+</head>
+<body>
+    <div class="pokedex">
+        <header class="pokedex-top">
+            <div class="lens">
+                <div class="lens-inner"></div>
+            </div>
+            <div class="indicator-row">
+                <span class="led red"></span>
+                <span class="led yellow"></span>
+                <span class="led green"></span>
+            </div>
+            <h1 data-i18n="title">POKÉDEX</h1>
+            <a href="/chat" class="oak-cta" aria-label="Call Professor Oak" data-i18n-aria="nav_chat">
+                <img src="/calloak.png" alt="" aria-hidden="true">
+            </a>
+            <div class="picker-group">
+                <div class="game-picker">
+                    <label for="game-select" data-i18n="game_label">Game</label>
+                    <select id="game-select" aria-label="Select game"></select>
+                </div>
+                <div class="lang-picker">
+                    <label for="lang-select" data-i18n="language_label">Language</label>
+                    <select id="lang-select" aria-label="Select language"></select>
+                </div>
+            </div>
+        </header>
+
+        <main class="pokedex-body">
+            <section class="screen list-screen">
+                <div class="screen-frame">
+                    <div class="screen-controls">
+                        <input id="search" type="search" data-i18n-placeholder="search_placeholder" placeholder="Search by name or #" autocomplete="off">
+                        <span id="count" class="count"></span>
+                    </div>
+                    <ul id="pokemon-list" class="pokemon-list" role="listbox"></ul>
+                </div>
+            </section>
+
+            <section class="screen detail-screen">
+                <div class="screen-frame detail-frame">
+                    <div id="detail" class="detail empty">
+                        <p class="empty-state" data-i18n="pick_prompt">Pick a game and a Pokémon to see its entry.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="pokedex-footer">
+            <span class="footer-text">Data from <a href="https://pokeapi.co" target="_blank" rel="noopener">PokéAPI</a> · National Pokédex numbering · Sprites © Game Freak / Nintendo / The Pokémon Company</span>
+        </footer>
+    </div>
+
+    <template id="entry-template">
+        <article class="entry">
+            <header class="entry-header">
+                <div class="entry-art-wrap">
+                    <img class="entry-art" alt="">
+                </div>
+                <div class="entry-meta">
+                    <div class="entry-id"></div>
+                    <h2 class="entry-name">Name</h2>
+                    <div class="entry-genus"></div>
+                    <div class="entry-types"></div>
+                    <div class="entry-stats">
+                        <span class="stat"><label data-i18n="height">Height</label><span class="value height"></span></span>
+                        <span class="stat"><label data-i18n="weight">Weight</label><span class="value weight"></span></span>
+                        <span class="stat"><label data-i18n="stage">Stage</label><span class="value stage"></span></span>
+                        <span class="stat"><label data-i18n="regional_number">Regional #</label><span class="value regional"></span></span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="entry-section description-section">
+                <h3 data-i18n="description">Description</h3>
+                <p class="entry-description"></p>
+            </section>
+
+            <section class="entry-section weaknesses-section">
+                <h3 data-i18n="weaknesses">Weaknesses</h3>
+                <ul class="entry-weaknesses"></ul>
+            </section>
+
+            <section class="entry-section evolution-section">
+                <h3 data-i18n="evolution">Evolution</h3>
+                <div class="entry-evolution"></div>
+            </section>
+
+            <section class="entry-section moves-section">
+                <h3 data-i18n="possible_moves">Possible Moves</h3>
+                <div class="moves-filter">
+                    <span class="moves-filter-label" data-i18n="filter_by_type">Filter by type</span>
+                    <span class="moves-count"></span>
+                </div>
+                <div class="moves-type-chips" role="group" aria-label="Filter moves by type"></div>
+                <div class="moves-table-wrap">
+                    <table class="moves-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="col_lv">Lv</th>
+                                <th data-i18n="col_move">Move</th>
+                                <th data-i18n="col_type">Type</th>
+                                <th data-i18n="col_class">Class</th>
+                                <th data-i18n="col_pwr">Pwr</th>
+                                <th data-i18n="col_acc">Acc</th>
+                                <th data-i18n="col_pp">PP</th>
+                                <th data-i18n="col_description">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="moves-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </article>
+    </template>
+
+    <script src="/app.js" defer></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

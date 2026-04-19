@@ -1,0 +1,13 @@
+{
+    "name": "PÓkE-GooGle",
+    "short_name": "PÓkE-GooGle",
+    "description": "Pokédex by game + Call Professor Oak chat.",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#c9382b",
+    "theme_color": "#c9382b",
+    "icons": [
+        { "src": "/icon.jpeg", "sizes": "822x820", "type": "image/jpeg", "purpose": "any" }
+    ]
+}

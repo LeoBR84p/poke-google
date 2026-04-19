@@ -1,0 +1,1227 @@
+/* ─────────── Pokédex theme (classic Kanto-red unit) ─────────── */
+
+:root {
+    --pokedex-red: #c9382b;
+    --pokedex-red-dark: #8a1f15;
+    --pokedex-red-light: #e85b4f;
+    --screen-bg: #c8d39d;          /* old Game Boy LCD green */
+    --screen-bg-dark: #a4b079;
+    --screen-text: #1f2a14;
+    --screen-shadow: rgba(0,0,0,.4);
+    --frame-dark: #2a2a2a;
+    --hinge-blue: #1d3eaa;
+    --hinge-blue-glow: #5a7eff;
+
+    --type-normal:  #a8a878;
+    --type-fire:    #f08030;
+    --type-water:   #6890f0;
+    --type-electric:#f8d030;
+    --type-grass:   #78c850;
+    --type-ice:     #98d8d8;
+    --type-fighting:#c03028;
+    --type-poison:  #a040a0;
+    --type-ground:  #e0c068;
+    --type-flying:  #a890f0;
+    --type-psychic: #f85888;
+    --type-bug:     #a8b820;
+    --type-rock:    #b8a038;
+    --type-ghost:   #705898;
+    --type-dragon:  #7038f8;
+    --type-dark:    #705848;
+    --type-steel:   #b8b8d0;
+    --type-fairy:   #ee99ac;
+    --type-unknown: #68a090;
+    --type-shadow:  #404060;
+
+    --damage-physical:#c8262a;
+    --damage-special: #4a6cd8;
+    --damage-status:  #888;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(160deg, #4a4a4a 0%, #2c2c2c 100%);
+    min-height: 100vh;
+    font-family: "Press Start 2P", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 14px;
+}
+
+a { color: var(--hinge-blue-glow); }
+
+/* ─── Outer Pokédex shell ─── */
+.pokedex {
+    max-width: 1280px;
+    margin: 24px auto;
+    background: var(--pokedex-red);
+    border: 4px solid var(--pokedex-red-dark);
+    border-radius: 18px 18px 32px 32px;
+    box-shadow:
+        inset 0 -8px 0 rgba(0,0,0,.25),
+        inset 0 4px 0 rgba(255,255,255,.15),
+        0 12px 30px rgba(0,0,0,.5);
+    padding: 18px 18px 8px;
+}
+
+/* ─── Top bar with lens & lights ─── */
+/*
+ * Two visual rows in a single grid:
+ *   row 1 — lens | POKÉDEX title spanning all columns | LEDs
+ *   row 2 — oak CTA | game / language pickers
+ * The title is placed in row 1, column 1 / -1, centered via text-align:
+ * that way it's aligned to the viewport centre independently of how
+ * wide the lens column (row 2's oak CTA) ends up being.  Lens & LEDs
+ * sit on top of the title span with a higher z-index.
+ */
+.pokedex-top {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px 14px;
+    padding: 6px 10px 14px;
+    border-bottom: 4px solid var(--pokedex-red-dark);
+    margin-bottom: 16px;
+}
+
+.pokedex-top > .lens {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: start;
+    z-index: 2;
+}
+.pokedex-top > .indicator-row {
+    grid-row: 1;
+    grid-column: 3;
+    justify-self: end;
+    z-index: 2;
+}
+.pokedex-top > h1 {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+.pokedex-top > .oak-cta {
+    grid-row: 2;
+    grid-column: 1;
+    justify-self: start;
+}
+.pokedex-top > .picker-group {
+    grid-row: 2;
+    grid-column: 2 / -1;
+}
+
+.lens {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #cfe1ff 0%, #4a8ef5 35%, #1d3eaa 70%, #122a8a 100%);
+    border: 4px solid #fff;
+    box-shadow:
+        0 0 0 4px var(--frame-dark),
+        inset 0 0 12px rgba(255,255,255,.4);
+    position: relative;
+}
+
+.lens-inner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.7);
+    top: 12px;
+    left: 12px;
+    filter: blur(2px);
+}
+
+.indicator-row { display: flex; gap: 8px; }
+
+.led {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid rgba(0,0,0,.5);
+    box-shadow: inset 0 0 4px rgba(255,255,255,.4);
+}
+.led.red    { background: #ff4d4d; }
+.led.yellow { background: #ffd147; }
+.led.green  { background: #7df764; }
+
+.pokedex h1 {
+    margin: 0;
+    color: #fff;
+    text-shadow: 2px 2px 0 var(--pokedex-red-dark);
+    font-size: 28px;
+    letter-spacing: 4px;
+}
+
+.game-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #fff;
+}
+
+.lang-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #fff;
+}
+
+.picker-group {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.game-picker label,
+.lang-picker label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #ffd9d4;
+}
+
+.game-picker,
+.lang-picker {
+    min-width: 0;       /* lets the select shrink below its intrinsic content width */
+}
+
+.game-picker select,
+.lang-picker select {
+    background: #1a1a1a;
+    color: #d2ffd2;
+    border: 3px solid #000;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.6);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.game-picker select:focus,
+.lang-picker select:focus {
+    outline: 2px solid var(--hinge-blue-glow);
+}
+
+/* ─── Body grid (two screens) ─── */
+.pokedex-body {
+    display: grid;
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    gap: 16px;
+}
+
+/* ─── Screen frame (the green LCDs) ─── */
+.screen-frame {
+    background: var(--frame-dark);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow:
+        inset 0 0 0 3px #000,
+        inset 0 6px 12px rgba(0,0,0,.8);
+    height: 80vh;
+    min-height: 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detail-frame {
+    height: 80vh;
+    overflow: hidden;
+}
+
+/* ─── Search controls + Pokémon list ─── */
+.screen-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#search {
+    flex: 1;
+    background: var(--screen-bg);
+    color: var(--screen-text);
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+.count {
+    color: var(--screen-bg);
+    font-size: 11px;
+    min-width: 60px;
+    text-align: right;
+}
+
+.pokemon-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    background: var(--screen-bg);
+    border: 2px solid #000;
+    border-radius: 6px;
+    flex: 1;
+    box-shadow: inset 0 0 8px rgba(0,0,0,.3);
+}
+
+.pokemon-list li {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--screen-bg-dark);
+    cursor: pointer;
+    color: var(--screen-text);
+    transition: background .1s ease;
+}
+
+.pokemon-list li:hover { background: var(--screen-bg-dark); }
+
+.pokemon-list li.selected {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+}
+
+.pokemon-list li .thumb {
+    width: 48px; height: 48px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    object-fit: contain;
+}
+
+.pokemon-list li .num {
+    font-size: 10px;
+    opacity: .7;
+}
+
+.pokemon-list li .name {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.pokemon-list li .types {
+    display: flex; gap: 4px; margin-top: 3px;
+}
+
+.pokemon-list li .types .type-pill {
+    font-size: 8px;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+/* ─── Detail panel ─── */
+.detail {
+    background: var(--screen-bg);
+    border: 2px solid #000;
+    border-radius: 6px;
+    padding: 14px;
+    overflow-y: auto;
+    flex: 1;
+    color: var(--screen-text);
+    box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+}
+
+.detail.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--screen-text);
+    opacity: .7;
+}
+
+.entry-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+    border-bottom: 2px dashed var(--screen-bg-dark);
+    padding-bottom: 14px;
+}
+
+.entry-art-wrap {
+    background: rgba(255,255,255,.4);
+    border: 2px solid var(--screen-text);
+    border-radius: 8px;
+    width: 200px; height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.entry-art {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.entry-art.high-res {
+    padding: 4px;
+    image-rendering: auto;
+}
+
+.entry-meta { display: flex; flex-direction: column; gap: 6px; }
+
+.entry-id {
+    font-size: 11px;
+    color: var(--screen-text);
+    opacity: .75;
+    letter-spacing: 1px;
+}
+
+.entry-name {
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.entry-genus {
+    font-size: 11px;
+    font-style: italic;
+    opacity: .7;
+}
+
+.entry-types { display: flex; gap: 6px; margin-top: 4px; }
+
+.entry-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 12px;
+    margin-top: 6px;
+    font-size: 11px;
+}
+
+.entry-stats .stat label {
+    text-transform: uppercase;
+    opacity: .7;
+    margin-right: 6px;
+}
+
+/* ─── Type pills ─── */
+.type-pill {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.4);
+    border: 1px solid rgba(0,0,0,.25);
+    letter-spacing: 1px;
+}
+.type-normal   { background: var(--type-normal); }
+.type-fire     { background: var(--type-fire); }
+.type-water    { background: var(--type-water); }
+.type-electric { background: var(--type-electric); color: #4a3a00; text-shadow: none; }
+.type-grass    { background: var(--type-grass); }
+.type-ice      { background: var(--type-ice); color: #1a3a3a; text-shadow: none; }
+.type-fighting { background: var(--type-fighting); }
+.type-poison   { background: var(--type-poison); }
+.type-ground   { background: var(--type-ground); color: #3a2a00; text-shadow: none; }
+.type-flying   { background: var(--type-flying); }
+.type-psychic  { background: var(--type-psychic); }
+.type-bug      { background: var(--type-bug); }
+.type-rock     { background: var(--type-rock); }
+.type-ghost    { background: var(--type-ghost); }
+.type-dragon   { background: var(--type-dragon); }
+.type-dark     { background: var(--type-dark); }
+.type-steel    { background: var(--type-steel); color: #1a1a3a; text-shadow: none; }
+.type-fairy    { background: var(--type-fairy); }
+.type-unknown  { background: var(--type-unknown); }
+.type-shadow   { background: var(--type-shadow); }
+
+/* ─── Sections ─── */
+.entry-section { margin-top: 14px; }
+.entry-section h3 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--screen-text);
+    border-left: 4px solid var(--screen-text);
+    padding-left: 6px;
+}
+
+.entry-description {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.55;
+    background: rgba(255,255,255,.35);
+    padding: 8px 10px;
+    border-radius: 4px;
+}
+
+/* ─── Weaknesses ─── */
+.entry-weaknesses {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.entry-weaknesses li {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,.35);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.entry-weaknesses .multiplier {
+    font-weight: bold;
+    color: var(--pokedex-red-dark);
+}
+
+/* ─── Evolution ─── */
+.entry-evolution {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: rgba(255,255,255,.35);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.entry-evolution .evo-node {
+    background: var(--screen-bg-dark);
+    color: var(--screen-text);
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--screen-text);
+}
+
+.entry-evolution .evo-node.current {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+    font-weight: bold;
+}
+
+.entry-evolution .evo-node.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+}
+
+.entry-evolution .evo-node.clickable:hover,
+.entry-evolution .evo-node.clickable:focus-visible {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+    outline: none;
+}
+
+.entry-evolution .evo-node.unavailable {
+    opacity: .5;
+    cursor: not-allowed;
+    font-style: italic;
+}
+
+.entry-evolution .evo-arrow {
+    color: var(--screen-text);
+    opacity: .6;
+    font-size: 14px;
+}
+
+.entry-evolution .evo-trigger {
+    font-size: 10px;
+    opacity: .8;
+}
+
+.entry-evolution .stage-badge {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--screen-text);
+    border-radius: 8px;
+}
+
+/* ─── Moves filter row + type chips ─── */
+.moves-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    font-size: 11px;
+}
+
+.moves-filter-label {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: .75;
+}
+
+.moves-count {
+    margin-left: auto;
+    font-size: 10px;
+    opacity: .7;
+}
+
+.moves-type-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.moves-type-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    border: 2px solid rgba(0,0,0,.35);
+    font-family: inherit;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.4);
+    opacity: .55;
+    transition: opacity .12s ease, transform .12s ease, box-shadow .12s ease;
+}
+
+.moves-type-chip:hover,
+.moves-type-chip:focus-visible { opacity: .85; outline: none; }
+
+.moves-type-chip.active {
+    opacity: 1;
+    box-shadow: 0 0 0 2px var(--screen-bg), 0 0 0 4px var(--screen-text);
+    transform: translateY(-1px);
+}
+
+.moves-type-chip .chip-count {
+    font-size: 9px;
+    opacity: .85;
+    background: rgba(0,0,0,.35);
+    padding: 1px 5px;
+    border-radius: 10px;
+}
+
+.moves-type-chip.chip-all {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+    text-shadow: none;
+    border-color: var(--screen-text);
+}
+
+.moves-type-chip.chip-all .chip-count {
+    background: var(--screen-bg);
+    color: var(--screen-text);
+}
+
+/* Reuse the shared type-color rules (--type-*) for the chip background. */
+.moves-type-chip.type-electric,
+.moves-type-chip.type-ice,
+.moves-type-chip.type-ground,
+.moves-type-chip.type-steel { color: #1a1a1a; text-shadow: none; }
+
+/* ─── Moves table ─── */
+.moves-table-wrap {
+    background: rgba(255,255,255,.35);
+    border-radius: 4px;
+    overflow: auto;
+    max-height: 320px;
+}
+
+.moves-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+
+.moves-table thead th {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+    text-align: left;
+    padding: 5px 8px;
+    position: sticky;
+    top: 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.moves-table tbody td {
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    vertical-align: top;
+}
+
+.moves-table tbody tr:nth-child(even) { background: rgba(0,0,0,.04); }
+
+.moves-table .move-name { font-weight: bold; }
+
+.damage-physical { color: var(--damage-physical); font-weight: bold; }
+.damage-special  { color: var(--damage-special); font-weight: bold; }
+.damage-status   { color: var(--damage-status); font-weight: bold; }
+
+.moves-table .desc {
+    font-size: 10px;
+    opacity: .9;
+    min-width: 200px;
+}
+
+/* ─────────── Chat page ─────────── */
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    background: #1a1a1a;
+    color: #d2ffd2;
+    border: 3px solid #000;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 13px;
+    text-decoration: none;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.6);
+    align-self: flex-end;
+}
+
+.nav-link:hover { color: #fff; }
+
+/* Call-to-action button for the chat, sitting on the LEFT of the game/
+   language pickers.  Height is locked to the Pokémon entry-art size at
+   each breakpoint so the button visually matches the sprite frame below.
+   The image has a transparent background (/calloak.png), so the red
+   Pokédex shell shows through — no seam. */
+.oak-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    height: 128px;      /* 20 % shorter than the previous 160 px */
+    width: auto;
+    flex: 0 0 auto;
+    cursor: pointer;
+    transition: transform .1s ease, filter .1s ease;
+}
+
+.oak-cta img {
+    display: block;
+    height: 100%;
+    width: auto;
+    pointer-events: none;
+}
+
+.oak-cta:hover { filter: brightness(1.05); }
+.oak-cta:active { transform: scale(.97); }
+.oak-cta:focus-visible {
+    outline: 2px solid var(--hinge-blue-glow);
+    outline-offset: 2px;
+}
+
+.chat-body {
+    grid-template-columns: minmax(280px, 420px) 1fr;
+}
+
+/* ─── Professor sprite-grid viewer ─── */
+/*
+ * /assets/profOak.png is a 4×3 grid (12 cells).  We show one cell at a
+ * time by setting background-size to 400% 300% so the visible area is
+ * exactly one cell, then panning via background-position percentages.
+ * Mapping: col c (0..3), row r (0..2)  →  pos x = c/3·100%, y = r/2·100%.
+ * After every LLM reply chat.js animates through 3 random frames
+ * (1 s each) so the professor "reacts" to the answer.
+ */
+
+.portrait-frame {
+    height: 80vh;
+    min-height: 540px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+/*
+ * Professor sprite viewer.  Source PNG was sliced offline into 12
+ * cell files (/cells/oak_0.png … oak_11.png, ~150 KB each — see
+ * tools/slice_oak.py).  The renderer is simply an <img> whose src
+ * is rewritten by chat.js.  Inline styles in chat.html mirror these
+ * with !important so cached /styles.css can't regress the layout.
+ */
+
+.oak-frame {
+    position: relative;
+    width: 100%;
+    max-width: min(92vw, 520px);
+    margin: 0 auto;
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 6px;
+    box-shadow: inset 0 0 12px rgba(0,0,0,.55);
+    background-color: #0b1006;
+}
+
+.oak-sprite {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    image-rendering: auto;
+}
+
+/* The fallback overlay uses display: flex; this override reinstates
+   the UA semantics of the HTML `hidden` attribute so toggling
+   `fallback.hidden = true` actually removes it from view. */
+.oak-fallback[hidden] { display: none !important; }
+
+.oak-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, .85);
+    background: #0b1006;
+    text-align: center;
+    padding: 20px;
+}
+
+.oak-fallback-emoji { font-size: 72px; filter: drop-shadow(2px 4px 0 rgba(0,0,0,.4)); }
+.oak-fallback-text  { font-size: 11px; opacity: .8; letter-spacing: 1px; }
+
+.portrait-caption {
+    background: rgba(31, 42, 20, .92);
+    border: 2px solid #000;
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--screen-bg);
+    text-align: center;
+    box-shadow: 0 4px 0 rgba(0,0,0,.4);
+}
+
+.professor-name {
+    margin: 0 0 4px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+}
+
+.professor-bio {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.45;
+    opacity: .9;
+}
+
+.chat-frame {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 80vh;
+    min-height: 540px;
+    padding: 14px;
+}
+
+.chat-log {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--screen-bg);
+    border: 2px solid #000;
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,.3);
+    color: var(--screen-text);
+}
+
+.chat-msg { display: flex; }
+.chat-msg-user { justify-content: flex-end; }
+.chat-msg-assistant { justify-content: flex-start; }
+.chat-msg-system {
+    justify-content: center;
+    font-size: 10px;
+    opacity: .7;
+    font-style: italic;
+    padding: 2px 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-msg-system.chat-error {
+    opacity: 1;
+    font-style: normal;
+    background: rgba(201, 56, 43, .08);
+    border: 1px solid rgba(201, 56, 43, .35);
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 4px auto;
+    max-width: 95%;
+    color: #7a2016;
+}
+
+.chat-error-title {
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 4px;
+}
+
+.chat-error-status {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(201, 56, 43, .2);
+    color: #7a2016;
+    margin-bottom: 4px;
+    align-self: flex-start;
+}
+
+.chat-error-pre {
+    margin: 0;
+    padding: 6px 8px;
+    width: 100%;
+    background: rgba(0, 0, 0, .08);
+    border-radius: 3px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #3a110a;
+}
+
+.chat-bubble {
+    max-width: 80%;
+    padding: 9px 12px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 1px solid rgba(0,0,0,.15);
+}
+
+.chat-msg-user .chat-bubble {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+    border-bottom-right-radius: 4px;
+}
+
+.chat-msg-assistant .chat-bubble {
+    background: rgba(255,255,255,.55);
+    color: var(--screen-text);
+    border-bottom-left-radius: 4px;
+}
+
+.chat-typing .chat-bubble { opacity: .7; }
+
+.dots {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.dots span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--screen-text);
+    animation: chat-dot 1s infinite ease-in-out;
+}
+
+.dots span:nth-child(2) { animation-delay: 150ms; }
+.dots span:nth-child(3) { animation-delay: 300ms; }
+
+@keyframes chat-dot {
+    0%, 60%, 100% { opacity: .25; transform: translateY(0); }
+    30%           { opacity: 1;   transform: translateY(-3px); }
+}
+
+.chat-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: var(--screen-bg);
+    border: 2px solid #000;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+.chat-input textarea {
+    background: rgba(255,255,255,.5);
+    border: 1px solid var(--screen-text);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: inherit;
+    /* 16px avoids iOS Safari auto-zoom on focus. */
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--screen-text);
+    resize: vertical;
+    min-height: 44px;
+}
+
+.chat-input textarea:focus {
+    outline: 2px solid var(--hinge-blue);
+    outline-offset: -1px;
+}
+
+.chat-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.chat-actions button {
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--screen-text);
+    cursor: pointer;
+}
+
+#chat-clear {
+    background: var(--screen-bg-dark);
+    color: var(--screen-text);
+}
+
+#chat-send {
+    background: var(--screen-text);
+    color: var(--screen-bg);
+    border: 1px solid var(--screen-text);
+}
+
+#chat-send:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 880px) {
+    .chat-body { grid-template-columns: 1fr; }
+    .portrait-frame,
+    .chat-frame {
+        height: auto;
+        min-height: 0;
+    }
+    .portrait-frame { padding: 10px; align-items: center; }
+    .professor-name { font-size: 14px; letter-spacing: 1px; }
+    .professor-bio { font-size: 10px; }
+    .chat-log { min-height: 300px; }
+}
+
+@media (max-width: 560px) {
+    .nav-link { padding: 6px 10px; font-size: 12px; }
+    .chat-bubble { font-size: 12px; max-width: 88%; }
+    /* keep 16px — anything smaller triggers iOS zoom on focus. */
+    .chat-input textarea { font-size: 16px; }
+}
+
+/* ─── Footer ─── */
+.pokedex-footer {
+    margin-top: 14px;
+    text-align: center;
+    color: rgba(255,255,255,.65);
+    font-size: 10px;
+    padding: 6px 0;
+}
+
+/* ─── Responsive ─── */
+
+/* Tablet / small desktop: stack the two screens, keep the chrome full-size. */
+@media (max-width: 880px) {
+    .pokedex-body {
+        grid-template-columns: 1fr;
+    }
+    .screen-frame, .detail-frame {
+        height: auto;
+        min-height: 0;
+    }
+    .pokemon-list { max-height: 340px; }
+    .detail { max-height: none; }
+    .entry-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .entry-art-wrap { margin: 0 auto; }
+    .pokedex-top {
+        gap: 10px 14px;
+    }
+    .pokedex-top .picker-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .picker-group > * {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+    .pokedex h1 { font-size: 22px; letter-spacing: 3px; }
+    .oak-cta { height: 128px; }
+}
+
+/* Phone portrait: shrink the Pokédex shell, compact chrome, card-layout moves. */
+@media (max-width: 560px) {
+    body { font-size: 13px; }
+    .pokedex {
+        margin: 8px;
+        padding: 10px 10px 6px;
+        border-radius: 14px 14px 22px 22px;
+        border-width: 3px;
+    }
+    .pokedex-top {
+        gap: 8px 10px;
+        padding: 4px 4px 10px;
+    }
+    .lens {
+        width: 50px; height: 50px;
+        border-width: 3px;
+        box-shadow: 0 0 0 3px var(--frame-dark), inset 0 0 8px rgba(255,255,255,.4);
+    }
+    .lens-inner {
+        width: 16px; height: 16px;
+        top: 8px; left: 8px;
+    }
+    .pokedex-top > .indicator-row {
+        gap: 6px;
+    }
+    .led { width: 12px; height: 12px; border-width: 1px; }
+    .pokedex h1 {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+    .pokedex-top .picker-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .picker-group > * {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+    .game-picker select,
+    .lang-picker select { padding: 8px 10px; font-size: 13px; }
+    .oak-cta { height: 102px; }     /* another 20 % shrink */
+
+    .screen-frame {
+        padding: 10px;
+        gap: 8px;
+    }
+    #search { font-size: 13px; padding: 8px 10px; }
+
+    .pokemon-list { max-height: 260px; }
+    .pokemon-list li {
+        grid-template-columns: 44px 1fr;
+        gap: 8px;
+        padding: 6px 8px;
+    }
+    .pokemon-list li .thumb { width: 42px; height: 42px; }
+
+    .detail { padding: 10px; }
+    .entry-header {
+        gap: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 12px;
+    }
+    .entry-art-wrap { width: 160px; height: 160px; }
+    .entry-name { font-size: 22px; letter-spacing: 1px; }
+    .entry-stats { grid-template-columns: 1fr 1fr; font-size: 10px; }
+
+    .entry-section h3 { font-size: 12px; letter-spacing: 1px; }
+
+    /* Evolution chain: let the nodes wrap vertically when they don't fit. */
+    .entry-evolution {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .entry-evolution .evo-arrow { display: none; }
+    .entry-evolution .stage-badge { margin-left: 0; align-self: flex-end; }
+
+    /* Moves: collapse the 8-column table into one card per move. */
+    .moves-table-wrap { max-height: none; }
+    .moves-table,
+    .moves-table tbody,
+    .moves-table tr,
+    .moves-table td { display: block; width: 100%; }
+    .moves-table thead { display: none; }
+    .moves-table tr {
+        padding: 8px 10px;
+        border-bottom: 1px solid rgba(0,0,0,.15);
+    }
+    .moves-table tbody tr:nth-child(even) { background: rgba(0,0,0,.06); }
+    .moves-table td {
+        padding: 2px 0;
+        border: none;
+        font-size: 11px;
+    }
+    .moves-table td::before {
+        content: attr(data-label) " ";
+        font-weight: bold;
+        opacity: .6;
+        text-transform: uppercase;
+        font-size: 9px;
+        margin-right: 6px;
+        letter-spacing: 1px;
+    }
+    .moves-table td[data-label="Move"] {
+        font-size: 14px;
+        font-weight: bold;
+        padding-bottom: 4px;
+    }
+    .moves-table td[data-label="Move"]::before { display: none; }
+    .moves-table td[data-label="Description"] {
+        font-size: 11px;
+        opacity: .95;
+        padding-top: 4px;
+    }
+    .moves-table td[data-label="Description"]::before { display: none; }
+    .moves-table .desc { min-width: 0; }
+
+    .entry-weaknesses li { font-size: 10px; }
+}
+
+/* Very narrow phones (≤360px). */
+@media (max-width: 360px) {
+    .pokedex h1 { font-size: 17px; letter-spacing: 1px; }
+    .entry-art-wrap { width: 140px; height: 140px; }
+    .entry-name { font-size: 18px; }
+    .entry-stats { grid-template-columns: 1fr; }
+    .oak-cta { height: 90px; }      /* another 20 % shrink */
+}
+

@@ -1,0 +1,5 @@
+# Extra deps for local development only — Vercel does NOT install these
+# (see .vercelignore).  Install with:
+#     pip install -r requirements.txt -r requirements-dev.txt
+
+uvicorn[standard]>=0.27
