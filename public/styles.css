@@ -722,7 +722,7 @@ a { color: var(--hinge-blue-glow); }
     border: none;
     border-radius: 0;
     overflow: hidden;
-    height: 128px;      /* 20 % shorter than the previous 160 px */
+    height: 96px;       /* 25 % shorter than the previous 128 px */
     width: auto;
     flex: 0 0 auto;
     cursor: pointer;
@@ -1092,7 +1092,7 @@ a { color: var(--hinge-blue-glow); }
         min-width: 0;
     }
     .pokedex h1 { font-size: 22px; letter-spacing: 3px; }
-    .oak-cta { height: 128px; }
+    .oak-cta { height: 96px; }
 }
 
 /* Phone portrait: shrink the Pokédex shell, compact chrome, card-layout moves. */
@@ -1136,7 +1136,7 @@ a { color: var(--hinge-blue-glow); }
     }
     .game-picker select,
     .lang-picker select { padding: 8px 10px; font-size: 13px; }
-    .oak-cta { height: 102px; }     /* another 20 % shrink */
+    .oak-cta { height: 77px; }      /* another 25 % shrink */
 
     .screen-frame {
         padding: 10px;
@@ -1222,6 +1222,6 @@ a { color: var(--hinge-blue-glow); }
     .entry-art-wrap { width: 140px; height: 140px; }
     .entry-name { font-size: 18px; }
     .entry-stats { grid-template-columns: 1fr; }
-    .oak-cta { height: 90px; }      /* another 20 % shrink */
+    .oak-cta { height: 68px; }      /* another 25 % shrink */
 }
 
